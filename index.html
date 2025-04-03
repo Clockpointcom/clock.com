@@ -1,24 +1,160 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7654573702138777"
-     crossorigin="anonymous"></script>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Horloge Mondiale</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Horloge mondiale</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            color: white;
+            background-image: url('Fond decran.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .timezone-display {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+        }
+
+        .clock {
+            font-size: 8rem;
+            font-weight: bold;
+            text-align: center;
+            text-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+            margin: 0;
+        }
+
+        .milliseconds {
+            font-size: 2rem;
+            display: inline-block;
+            vertical-align: bottom;
+            margin-left: 5px;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+        }
+
+        .timezone-list {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .timezone-item {
+            font-size: 0.9rem;
+            margin: 3px 0;
+            cursor: pointer;
+            padding: 3px 8px;
+            border-radius: 3px;
+            transition: background-color 0.2s;
+        }
+
+        .timezone-item:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .timezone-item.active {
+            background-color: rgba(255, 255, 255, 0.3);
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Horloge Mondiale</h1>
-        <select id="timezone">
-            <option value="UTC">UTC (Temps Universel)</option>
-            <option value="Europe/Paris">Paris (CET)</option>
-            <option value="America/New_York">New York (EST)</option>
-            <option value="Asia/Tokyo">Tokyo (JST)</option>
-            <option value="Australia/Sydney">Sydney (AEST)</option>
-        </select>
-        <div id="clock">00:00:00.00</div>
+    <div class="timezone-list" id="timezoneList">
+        <div class="timezone-item active" data-timezone="UTC">UTC</div>
+        <div class="timezone-item" data-timezone="Europe/London">Londres</div>
+        <div class="timezone-item" data-timezone="Europe/Paris">Paris</div>
+        <div class="timezone-item" data-timezone="America/New_York">New York</div>
+        <div class="timezone-item" data-timezone="Asia/Tokyo">Tokyo</div>
+        <div class="timezone-item" data-timezone="Australia/Sydney">Sydney</div>
+        <div class="timezone-item" data-timezone="America/Los_Angeles">Los Angeles</div>
     </div>
-    <script src="script.js"></script>
+
+    <div class="timezone-display" id="timezoneDisplay">UTC</div>
+    <div class="clock" id="clock">
+        <span id="hours">00</span>:<span id="minutes">00</span>:<span id="seconds">00</span>
+        <span class="milliseconds" id="milliseconds">.00</span>
+    </div>
+
+    <script>
+        const timezoneDisplay = document.getElementById('timezoneDisplay');
+        const clock = document.getElementById('clock');
+        const hoursElement = document.getElementById('hours');
+        const minutesElement = document.getElementById('minutes');
+        const secondsElement = document.getElementById('seconds');
+        const millisecondsElement = document.getElementById('milliseconds');
+        const timezoneItems = document.querySelectorAll('.timezone-item');
+
+        let currentTimezone = 'UTC';
+
+        function updateClock() {
+            const now = new Date();
+            
+            // Créer une date avec le fuseau horaire sélectionné
+            const options = {
+                timeZone: currentTimezone,
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            };
+            
+            const formatter = new Intl.DateTimeFormat('fr-FR', options);
+            const parts = formatter.formatToParts(now);
+            
+            let hour, minute, second;
+            
+            for (const part of parts) {
+                if (part.type === 'hour') hour = part.value;
+                if (part.type === 'minute') minute = part.value;
+                if (part.type === 'second') second = part.value;
+            }
+            
+            // Obtenir les millisecondes
+            const milliseconds = now.getMilliseconds();
+            const centiseconds = Math.floor(milliseconds / 10);
+            
+            hoursElement.textContent = hour;
+            minutesElement.textContent = minute;
+            secondsElement.textContent = second;
+            millisecondsElement.textContent = `.${centiseconds.toString().padStart(2, '0')}`;
+            
+            requestAnimationFrame(updateClock);
+        }
+
+        function setActiveTimezone(item) {
+            timezoneItems.forEach(i => i.classList.remove('active'));
+            item.classList.add('active');
+            currentTimezone = item.getAttribute('data-timezone');
+            timezoneDisplay.textContent = currentTimezone.split('/').pop().replace('_', ' ');
+        }
+
+        timezoneItems.forEach(item => {
+            item.addEventListener('click', () => {
+                setActiveTimezone(item);
+            });
+        });
+
+        // Démarrer avec UTC
+        setActiveTimezone(document.querySelector('.timezone-item[data-timezone="UTC"]'));
+        updateClock();
+    </script>
 </body>
 </html>
