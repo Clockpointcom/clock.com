@@ -1,23 +1,62 @@
-<!DOCTYPE html>
+ontent="summary_large_image">
+    <!-- 2. Favicon pour le branding -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🕒</text></svg>">
+    <style>
+        :root {<!DOCTYPE html>
 <html lang="fr">
 <head><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7654573702138777"
      crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!DOCTYPE html>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- 1. Meta SEO améliorées -->
-    <title>Horloge Mondiale Live | Heure Exacte par Ville (UTC, Paris, Londres...)</title>
-    <meta name="description" content="Horloge mondiale précise avec centièmes de seconde. Affichez l'heure actuelle dans 15+ fuseaux horaires (UTC, Paris, New York, Tokyo...) et la date locale.">
-    <meta name="keywords" content="heure mondiale, fuseau horaire, heure exacte, UTC, heure Paris, heure Londres, horloge en ligne, temps universel">
+    
+    <!-- Meta SEO Optimisées -->
+    <title>Horloge Mondiale Live | Heure Exacte Paris, Londres, New York, Tokyo (UTC)</title>
+    <meta name="description" content="Horloge mondiale précise avec centièmes de seconde | Heure actuelle à Paris, Londres, New York, Tokyo | UTC et fuseaux horaires en temps réel">
+    <meta name="keywords" content="heure exacte mondiale, horloge en ligne fuseaux horaires, heure Paris Londres New York, heure UTC live, quelle heure est-il">
+    <meta name="author" content="VotreNom">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://votresite.com/">
     <meta property="og:title" content="Horloge Mondiale Live avec Centièmes de Seconde">
-    <meta property="og:description" content="Consultez l'heure exacte dans le monde entier avec précision milliseconde.">
-    <meta property="og:image" content="https://votre-site.com/preview-horloge.png">
-    <meta property="og:url" content="https://votre-site.com">
-    <meta name="twitter:card" content="summary_large_image">
-    <!-- 2. Favicon pour le branding -->
+    <meta property="og:description" content="Affiche l'heure exacte avec précision milliseconde pour tous les fuseaux horaires">
+    <meta property="og:image" content="https://votresite.com/preview.jpg">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://votresite.com/">
+    <meta property="twitter:title" content="Horloge Mondiale Live avec Centièmes de Seconde">
+    <meta property="twitter:description" content="Affiche l'heure exacte avec précision milliseconde pour tous les fuseaux horaires">
+    <meta property="twitter:image" content="https://votresite.com/preview.jpg">
+    
+    <!-- Favicon moderne -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🕒</text></svg>">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://votresite.com" />
+    
+    <!-- Schema.org markup for Google -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Horloge Mondiale Live",
+      "description": "Affiche l'heure exacte avec précision milliseconde pour tous les fuseaux horaires",
+      "applicationCategory": "Utility",
+      "operatingSystem": "Web",
+      "screenshot": "https://votresite.com/preview.jpg",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+    
     <style>
         :root {
             --primary-color: #4a6fa5;
@@ -32,12 +71,12 @@
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
+            overflow-x: hidden;
         }
 
         .timezone-display {
@@ -56,6 +95,7 @@
             border-radius: 15px;
             backdrop-filter: blur(5px);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 20px;
         }
 
         .clock {
@@ -114,13 +154,13 @@
             font-weight: bold;
         }
 
-        /* 3. Boutons de partage */
         .share-container {
-            position: absolute;
+            position: fixed;
             bottom: 20px;
             right: 20px;
             display: flex;
             gap: 10px;
+            z-index: 100;
         }
 
         .share-btn {
@@ -138,7 +178,6 @@
             background-color: var(--hover-color);
         }
 
-        /* 4. Bannière cookie */
         .cookie-banner {
             position: fixed;
             bottom: 0;
@@ -163,7 +202,28 @@
             cursor: pointer;
         }
 
-        /* 5. Responsive design */
+        .seo-content {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 25px;
+            background: rgba(0,0,0,0.7);
+            border-radius: 8px;
+            line-height: 1.6;
+        }
+
+        .seo-content h2 {
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+
+        .seo-content ul {
+            padding-left: 20px;
+        }
+
+        .seo-content li {
+            margin-bottom: 8px;
+        }
+
         @media (max-width: 768px) {
             .clock {
                 font-size: 4rem;
@@ -172,13 +232,16 @@
                 font-size: 1rem;
             }
             .timezone-list {
-                top: 10px;
-                left: 10px;
-                font-size: 0.8rem;
+                position: static;
+                max-height: none;
+                margin-bottom: 20px;
+            }
+            .seo-content {
+                margin: 20px;
+                padding: 15px;
             }
         }
 
-        /* 6. Animation entrée */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -189,7 +252,6 @@
     </style>
 </head>
 <body>
-    <!-- 7. Structure sémantique améliorée -->
     <header>
         <nav class="timezone-list" id="timezoneList">
             <div class="timezone-item active" data-timezone="UTC" data-lang="en">UTC</div>
@@ -199,7 +261,6 @@
             <div class="timezone-item" data-timezone="Asia/Tokyo" data-lang="ja-JP">Tokyo</div>
             <div class="timezone-item" data-timezone="Australia/Sydney" data-lang="en-AU">Sydney</div>
             <div class="timezone-item" data-timezone="America/Los_Angeles" data-lang="en-US">Los Angeles</div>
-            <!-- Ajoutez d'autres villes ici -->
         </nav>
     </header>
 
@@ -211,6 +272,19 @@
                 <span class="milliseconds" id="milliseconds">.00</span>
             </div>
             <div class="date" id="date"></div>
+        </div>
+
+        <div class="seo-content">
+            <h2>Horloge Universelle en Temps Réel</h2>
+            <p>Notre outil affiche l'heure exacte avec une précision inégalée (jusqu'aux centièmes de seconde) pour les villes suivantes :</p>
+            <ul>
+                <li><strong>Heure Paris</strong> (Europe/Paris) - Fuseau horaire CET</li>
+                <li><strong>Heure Londres</strong> (Europe/London) - Fuseau GMT/BST</li>
+                <li><strong>Heure New York</strong> (America/New_York) - Fuseau EST/EDT</li>
+                <li><strong>Heure Tokyo</strong> (Asia/Tokyo) - Fuseau JST</li>
+                <li><strong>Heure UTC</strong> - Temps universel coordonné</li>
+            </ul>
+            <p>Comparateur idéal pour : professionnels internationaux, traders forex, développeurs travaillant avec des serveurs UTC, et voyageurs. Notre horloge mondiale vous permet de synchroniser vos activités avec précision quel que soit votre fuseau horaire.</p>
         </div>
     </main>
 
@@ -226,7 +300,6 @@
     </div>
 
     <script>
-        // Configuration initiale
         const timezoneDisplay = document.getElementById('timezoneDisplay');
         const hoursElement = document.getElementById('hours');
         const minutesElement = document.getElementById('minutes');
@@ -240,15 +313,16 @@
         let currentLanguage = 'en';
         let analyticsEnabled = false;
 
-        // 8. Analytics (optionnel)
+        // Initialisation Analytics
         function initAnalytics() {
             if(typeof gtag !== 'undefined') {
                 gtag('config', 'G-VOTREID');
                 analyticsEnabled = true;
+                console.log('Analytics activés');
             }
         }
 
-        // 9. Mise à jour de l'horloge
+        // Mise à jour de l'horloge
         function updateClock() {
             const now = new Date();
             
@@ -298,7 +372,7 @@
             requestAnimationFrame(updateClock);
         }
 
-        // 10. Gestion des fuseaux horaires
+        // Gestion des fuseaux horaires
         function setActiveTimezone(item) {
             timezoneItems.forEach(i => i.classList.remove('active'));
             item.classList.add('active');
@@ -307,10 +381,12 @@
             
             const displayName = new Intl.DisplayNames([currentLanguage], {type: 'region'});
             const region = currentTimezone.split('/')[0];
-            timezoneDisplay.textContent = item.textContent === 'UTC' ? 'UTC' : 
-                `${item.textContent} (${displayName.of(region)})`;
+            const cityName = item.textContent;
             
-            // Tracking (si analytics activé)
+            timezoneDisplay.textContent = cityName === 'UTC' ? 'UTC' : 
+                `${cityName} (${displayName.of(region)})`;
+            
+            // Tracking
             if(analyticsEnabled) {
                 gtag('event', 'timezone_change', {
                     'timezone': currentTimezone,
@@ -319,10 +395,10 @@
             }
         }
 
-        // 11. Partage social
+        // Partage social
         function shareOnTwitter() {
             const url = encodeURIComponent(window.location.href);
-            const text = encodeURIComponent("Découvrez cette horloge mondiale ultra-précise ! 🕒 Affiche l'heure exacte avec centièmes de seconde pour tous les fuseaux horaires.");
+            const text = encodeURIComponent("Découvrez cette horloge mondiale ultra-précise ! 🕒 Affiche l'heure exacte avec centièmes de seconde pour Paris, Londres, New York, Tokyo et plus encore.");
             window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
         }
 
@@ -333,25 +409,70 @@
 
         function copyLink() {
             navigator.clipboard.writeText(window.location.href);
-            alert("Lien copié dans le presse-papiers !");
+            alert("Lien copié dans le presse-papiers ! Partagez-le avec vos collègues !");
         }
 
-        // 12. Gestion des cookies
+        // Gestion des cookies
         function acceptCookies() {
             localStorage.setItem('cookiesAccepted', 'true');
             cookieBanner.style.display = 'none';
             initAnalytics();
         }
 
+        // Backlinks automatiques
+        function generateBacklinks() {
+            const links = [
+                {url: "https://fr.wikipedia.org/wiki/Temps_universel_coordonn%C3%A9", text: "En savoir plus sur UTC"},
+                {url: "https://www.timeanddate.com/time/map/", text: "Carte des fuseaux horaires"},
+                {url: "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000006841164&cidTexte=LEGITEXT000006070719", text: "Heure légale en France"}
+            ];
+            
+            const footer = document.createElement('footer');
+            footer.style.margin = '30px auto';
+            footer.style.padding = '15px';
+            footer.style.textAlign = 'center';
+            footer.style.maxWidth = '800px';
+            footer.style.backgroundColor = 'rgba(0,0,0,0.7)';
+            footer.style.borderRadius = '8px';
+            
+            const linksTitle = document.createElement('h3');
+            linksTitle.textContent = 'Ressources Utiles';
+            linksTitle.style.color = 'var(--primary-color)';
+            linksTitle.style.marginTop = '0';
+            footer.appendChild(linksTitle);
+            
+            const linksContainer = document.createElement('div');
+            linksContainer.style.display = 'flex';
+            linksContainer.style.flexWrap = 'wrap';
+            linksContainer.style.justifyContent = 'center';
+            linksContainer.style.gap = '15px';
+            
+            links.forEach(link => {
+                const a = document.createElement('a');
+                a.href = link.url;
+                a.textContent = link.text;
+                a.style.color = '#4a6fa5';
+                a.style.textDecoration = 'none';
+                a.target = '_blank';
+                a.rel = 'noopener noreferrer';
+                linksContainer.appendChild(a);
+            });
+            
+            footer.appendChild(linksContainer);
+            document.body.appendChild(footer);
+        }
+
         // Initialisation
         document.addEventListener('DOMContentLoaded', () => {
-            // Vérifier les cookies
+            // Cookies
             if(localStorage.getItem('cookiesAccepted') === 'true') {
                 cookieBanner.style.display = 'none';
                 initAnalytics();
+            } else {
+                cookieBanner.style.display = 'flex';
             }
 
-            // Gestion des clics sur les fuseaux
+            // Gestion des fuseaux
             timezoneItems.forEach(item => {
                 item.addEventListener('click', () => {
                     setActiveTimezone(item);
@@ -361,9 +482,10 @@
             // Démarrer avec UTC
             setActiveTimezone(document.querySelector('.timezone-item[data-timezone="UTC"]'));
             updateClock();
+            generateBacklinks();
         });
 
-        // 13. Service Worker pour PWA (optionnel)
+        // Service Worker pour PWA
         if('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/sw.js').then(registration => {
@@ -375,12 +497,19 @@
         }
     </script>
 
-    <!-- 14. Google Analytics (optionnel) -->
+    <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-VOTREID"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
+        
+        // Google Search Console Verification
+        const gscId = 'GOOGLE_SEARCH_CONSOLE_ID';
+        const gscTag = document.createElement('meta');
+        gscTag.name = 'google-site-verification';
+        gscTag.content = gscId;
+        document.head.appendChild(gscTag);
     </script>
 </body>
 </html>
