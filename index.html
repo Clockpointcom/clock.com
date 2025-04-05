@@ -4,12 +4,29 @@
      crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Horloge mondiale</title>
+<!DOCTYPE html>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 1. Meta SEO améliorées -->
+    <title>Horloge Mondiale Live | Heure Exacte par Ville (UTC, Paris, Londres...)</title>
+    <meta name="description" content="Horloge mondiale précise avec centièmes de seconde. Affichez l'heure actuelle dans 15+ fuseaux horaires (UTC, Paris, New York, Tokyo...) et la date locale.">
+    <meta name="keywords" content="heure mondiale, fuseau horaire, heure exacte, UTC, heure Paris, heure Londres, horloge en ligne, temps universel">
+    <meta property="og:title" content="Horloge Mondiale Live avec Centièmes de Seconde">
+    <meta property="og:description" content="Consultez l'heure exacte dans le monde entier avec précision milliseconde.">
+    <meta property="og:image" content="https://votre-site.com/preview-horloge.png">
+    <meta property="og:url" content="https://votre-site.com">
+    <meta name="twitter:card" content="summary_large_image">
+    <!-- 2. Favicon pour le branding -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🕒</text></svg>">
     <style>
+        :root {
+            --primary-color: #4a6fa5;
+            --hover-color: #5a8fd3;
+        }
         body {
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', system-ui, sans-serif;
             color: white;
             background-image: url('Fond decran.png');
             background-size: cover;
@@ -34,6 +51,11 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            background-color: rgba(0, 0, 0, 0.4);
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .clock {
@@ -42,6 +64,7 @@
             text-align: center;
             text-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
             margin: 0;
+            font-family: 'Courier New', monospace;
         }
 
         .date {
@@ -68,60 +91,164 @@
             background-color: rgba(0, 0, 0, 0.5);
             padding: 10px;
             border-radius: 5px;
+            max-height: 80vh;
+            overflow-y: auto;
         }
 
         .timezone-item {
             font-size: 0.9rem;
             margin: 3px 0;
             cursor: pointer;
-            padding: 3px 8px;
+            padding: 5px 10px;
             border-radius: 3px;
-            transition: background-color 0.2s;
+            transition: all 0.2s;
         }
 
         .timezone-item:hover {
             background-color: rgba(255, 255, 255, 0.2);
+            transform: translateX(3px);
         }
 
         .timezone-item.active {
-            background-color: rgba(255, 255, 255, 0.3);
+            background-color: var(--primary-color);
             font-weight: bold;
+        }
+
+        /* 3. Boutons de partage */
+        .share-container {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .share-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 0.8rem;
+        }
+
+        .share-btn:hover {
+            background-color: var(--hover-color);
+        }
+
+        /* 4. Bannière cookie */
+        .cookie-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.8);
+            padding: 15px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            z-index: 1000;
+        }
+
+        .cookie-banner button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        /* 5. Responsive design */
+        @media (max-width: 768px) {
+            .clock {
+                font-size: 4rem;
+            }
+            .milliseconds {
+                font-size: 1rem;
+            }
+            .timezone-list {
+                top: 10px;
+                left: 10px;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* 6. Animation entrée */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .clock-container {
+            animation: fadeIn 0.8s ease-out;
         }
     </style>
 </head>
 <body>
-    <div class="timezone-list" id="timezoneList">
-        <div class="timezone-item active" data-timezone="UTC" data-lang="en">UTC</div>
-        <div class="timezone-item" data-timezone="Europe/London" data-lang="en-GB">Londres</div>
-        <div class="timezone-item" data-timezone="Europe/Paris" data-lang="fr-FR">Paris</div>
-        <div class="timezone-item" data-timezone="America/New_York" data-lang="en-US">New York</div>
-        <div class="timezone-item" data-timezone="Asia/Tokyo" data-lang="ja-JP">Tokyo</div>
-        <div class="timezone-item" data-timezone="Australia/Sydney" data-lang="en-AU">Sydney</div>
-        <div class="timezone-item" data-timezone="America/Los_Angeles" data-lang="en-US">Los Angeles</div>
+    <!-- 7. Structure sémantique améliorée -->
+    <header>
+        <nav class="timezone-list" id="timezoneList">
+            <div class="timezone-item active" data-timezone="UTC" data-lang="en">UTC</div>
+            <div class="timezone-item" data-timezone="Europe/London" data-lang="en-GB">Londres</div>
+            <div class="timezone-item" data-timezone="Europe/Paris" data-lang="fr-FR">Paris</div>
+            <div class="timezone-item" data-timezone="America/New_York" data-lang="en-US">New York</div>
+            <div class="timezone-item" data-timezone="Asia/Tokyo" data-lang="ja-JP">Tokyo</div>
+            <div class="timezone-item" data-timezone="Australia/Sydney" data-lang="en-AU">Sydney</div>
+            <div class="timezone-item" data-timezone="America/Los_Angeles" data-lang="en-US">Los Angeles</div>
+            <!-- Ajoutez d'autres villes ici -->
+        </nav>
+    </header>
+
+    <main>
+        <h1 class="timezone-display" id="timezoneDisplay">UTC</h1>
+        <div class="clock-container">
+            <div class="clock" id="clock">
+                <span id="hours">00</span>:<span id="minutes">00</span>:<span id="seconds">00</span>
+                <span class="milliseconds" id="milliseconds">.00</span>
+            </div>
+            <div class="date" id="date"></div>
+        </div>
+    </main>
+
+    <div class="share-container">
+        <button class="share-btn" onclick="shareOnTwitter()">Twitter</button>
+        <button class="share-btn" onclick="shareOnFacebook()">Facebook</button>
+        <button class="share-btn" onclick="copyLink()">Copier lien</button>
     </div>
 
-    <div class="timezone-display" id="timezoneDisplay">UTC</div>
-    <div class="clock-container">
-        <div class="clock" id="clock">
-            <span id="hours">00</span>:<span id="minutes">00</span>:<span id="seconds">00</span>
-            <span class="milliseconds" id="milliseconds">.00</span>
-        </div>
-        <div class="date" id="date"></div>
+    <div class="cookie-banner" id="cookieBanner">
+        <p>Ce site utilise des cookies pour améliorer votre expérience.</p>
+        <button onclick="acceptCookies()">Accepter</button>
     </div>
 
     <script>
+        // Configuration initiale
         const timezoneDisplay = document.getElementById('timezoneDisplay');
-        const clock = document.getElementById('clock');
         const hoursElement = document.getElementById('hours');
         const minutesElement = document.getElementById('minutes');
         const secondsElement = document.getElementById('seconds');
         const millisecondsElement = document.getElementById('milliseconds');
         const dateElement = document.getElementById('date');
         const timezoneItems = document.querySelectorAll('.timezone-item');
+        const cookieBanner = document.getElementById('cookieBanner');
 
         let currentTimezone = 'UTC';
         let currentLanguage = 'en';
+        let analyticsEnabled = false;
 
+        // 8. Analytics (optionnel)
+        function initAnalytics() {
+            if(typeof gtag !== 'undefined') {
+                gtag('config', 'G-VOTREID');
+                analyticsEnabled = true;
+            }
+        }
+
+        // 9. Mise à jour de l'horloge
         function updateClock() {
             const now = new Date();
             
@@ -171,28 +298,89 @@
             requestAnimationFrame(updateClock);
         }
 
+        // 10. Gestion des fuseaux horaires
         function setActiveTimezone(item) {
             timezoneItems.forEach(i => i.classList.remove('active'));
             item.classList.add('active');
             currentTimezone = item.getAttribute('data-timezone');
             currentLanguage = item.getAttribute('data-lang');
             
-            // Mise à jour de l'affichage du fuseau
             const displayName = new Intl.DisplayNames([currentLanguage], {type: 'region'});
             const region = currentTimezone.split('/')[0];
             timezoneDisplay.textContent = item.textContent === 'UTC' ? 'UTC' : 
                 `${item.textContent} (${displayName.of(region)})`;
+            
+            // Tracking (si analytics activé)
+            if(analyticsEnabled) {
+                gtag('event', 'timezone_change', {
+                    'timezone': currentTimezone,
+                    'language': currentLanguage
+                });
+            }
         }
 
-        timezoneItems.forEach(item => {
-            item.addEventListener('click', () => {
-                setActiveTimezone(item);
+        // 11. Partage social
+        function shareOnTwitter() {
+            const url = encodeURIComponent(window.location.href);
+            const text = encodeURIComponent("Découvrez cette horloge mondiale ultra-précise ! 🕒 Affiche l'heure exacte avec centièmes de seconde pour tous les fuseaux horaires.");
+            window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
+        }
+
+        function shareOnFacebook() {
+            const url = encodeURIComponent(window.location.href);
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
+        }
+
+        function copyLink() {
+            navigator.clipboard.writeText(window.location.href);
+            alert("Lien copié dans le presse-papiers !");
+        }
+
+        // 12. Gestion des cookies
+        function acceptCookies() {
+            localStorage.setItem('cookiesAccepted', 'true');
+            cookieBanner.style.display = 'none';
+            initAnalytics();
+        }
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', () => {
+            // Vérifier les cookies
+            if(localStorage.getItem('cookiesAccepted') === 'true') {
+                cookieBanner.style.display = 'none';
+                initAnalytics();
+            }
+
+            // Gestion des clics sur les fuseaux
+            timezoneItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    setActiveTimezone(item);
+                });
             });
+
+            // Démarrer avec UTC
+            setActiveTimezone(document.querySelector('.timezone-item[data-timezone="UTC"]'));
+            updateClock();
         });
 
-        // Démarrer avec UTC
-        setActiveTimezone(document.querySelector('.timezone-item[data-timezone="UTC"]'));
-        updateClock();
+        // 13. Service Worker pour PWA (optionnel)
+        if('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').then(registration => {
+                    console.log('ServiceWorker enregistré avec succès');
+                }).catch(err => {
+                    console.log('Échec enregistrement ServiceWorker:', err);
+                });
+            });
+        }
+    </script>
+
+    <!-- 14. Google Analytics (optionnel) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VOTREID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
     </script>
 </body>
 </html>
