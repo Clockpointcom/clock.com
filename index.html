@@ -25,9 +25,15 @@
 
         .timezone-display {
             font-size: 2rem;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
             text-align: center;
             text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+        }
+
+        .clock-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .clock {
@@ -36,6 +42,12 @@
             text-align: center;
             text-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
             margin: 0;
+        }
+
+        .date {
+            font-size: 1.5rem;
+            margin-top: 0.5rem;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
         }
 
         .milliseconds {
@@ -79,19 +91,22 @@
 </head>
 <body>
     <div class="timezone-list" id="timezoneList">
-        <div class="timezone-item active" data-timezone="UTC">UTC</div>
-        <div class="timezone-item" data-timezone="Europe/London">Londres</div>
-        <div class="timezone-item" data-timezone="Europe/Paris">Paris</div>
-        <div class="timezone-item" data-timezone="America/New_York">New York</div>
-        <div class="timezone-item" data-timezone="Asia/Tokyo">Tokyo</div>
-        <div class="timezone-item" data-timezone="Australia/Sydney">Sydney</div>
-        <div class="timezone-item" data-timezone="America/Los_Angeles">Los Angeles</div>
+        <div class="timezone-item active" data-timezone="UTC" data-lang="en">UTC</div>
+        <div class="timezone-item" data-timezone="Europe/London" data-lang="en-GB">Londres</div>
+        <div class="timezone-item" data-timezone="Europe/Paris" data-lang="fr-FR">Paris</div>
+        <div class="timezone-item" data-timezone="America/New_York" data-lang="en-US">New York</div>
+        <div class="timezone-item" data-timezone="Asia/Tokyo" data-lang="ja-JP">Tokyo</div>
+        <div class="timezone-item" data-timezone="Australia/Sydney" data-lang="en-AU">Sydney</div>
+        <div class="timezone-item" data-timezone="America/Los_Angeles" data-lang="en-US">Los Angeles</div>
     </div>
 
     <div class="timezone-display" id="timezoneDisplay">UTC</div>
-    <div class="clock" id="clock">
-        <span id="hours">00</span>:<span id="minutes">00</span>:<span id="seconds">00</span>
-        <span class="milliseconds" id="milliseconds">.00</span>
+    <div class="clock-container">
+        <div class="clock" id="clock">
+            <span id="hours">00</span>:<span id="minutes">00</span>:<span id="seconds">00</span>
+            <span class="milliseconds" id="milliseconds">.00</span>
+        </div>
+        <div class="date" id="date"></div>
     </div>
 
     <script>
@@ -101,15 +116,17 @@
         const minutesElement = document.getElementById('minutes');
         const secondsElement = document.getElementById('seconds');
         const millisecondsElement = document.getElementById('milliseconds');
+        const dateElement = document.getElementById('date');
         const timezoneItems = document.querySelectorAll('.timezone-item');
 
         let currentTimezone = 'UTC';
+        let currentLanguage = 'en';
 
         function updateClock() {
             const now = new Date();
             
-            // Créer une date avec le fuseau horaire sélectionné
-            const options = {
+            // Formatage de l'heure
+            const timeOptions = {
                 timeZone: currentTimezone,
                 hour: '2-digit',
                 minute: '2-digit',
@@ -117,25 +134,39 @@
                 hour12: false
             };
             
-            const formatter = new Intl.DateTimeFormat('fr-FR', options);
-            const parts = formatter.formatToParts(now);
+            const timeFormatter = new Intl.DateTimeFormat(currentLanguage, timeOptions);
+            const timeParts = timeFormatter.formatToParts(now);
             
             let hour, minute, second;
             
-            for (const part of parts) {
+            for (const part of timeParts) {
                 if (part.type === 'hour') hour = part.value;
                 if (part.type === 'minute') minute = part.value;
                 if (part.type === 'second') second = part.value;
             }
             
-            // Obtenir les millisecondes
-            const milliseconds = now.getMilliseconds();
-            const centiseconds = Math.floor(milliseconds / 10);
+            // Formatage de la date
+            const dateOptions = {
+                timeZone: currentTimezone,
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            };
             
+            const dateFormatter = new Intl.DateTimeFormat(currentLanguage, dateOptions);
+            const formattedDate = dateFormatter.format(now);
+            
+            // Affichage
             hoursElement.textContent = hour;
             minutesElement.textContent = minute;
             secondsElement.textContent = second;
+            
+            const milliseconds = now.getMilliseconds();
+            const centiseconds = Math.floor(milliseconds / 10);
             millisecondsElement.textContent = `.${centiseconds.toString().padStart(2, '0')}`;
+            
+            dateElement.textContent = formattedDate;
             
             requestAnimationFrame(updateClock);
         }
@@ -144,7 +175,13 @@
             timezoneItems.forEach(i => i.classList.remove('active'));
             item.classList.add('active');
             currentTimezone = item.getAttribute('data-timezone');
-            timezoneDisplay.textContent = currentTimezone.split('/').pop().replace('_', ' ');
+            currentLanguage = item.getAttribute('data-lang');
+            
+            // Mise à jour de l'affichage du fuseau
+            const displayName = new Intl.DisplayNames([currentLanguage], {type: 'region'});
+            const region = currentTimezone.split('/')[0];
+            timezoneDisplay.textContent = item.textContent === 'UTC' ? 'UTC' : 
+                `${item.textContent} (${displayName.of(region)})`;
         }
 
         timezoneItems.forEach(item => {
